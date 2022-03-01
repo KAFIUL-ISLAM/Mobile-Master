@@ -14,7 +14,6 @@ const fetchData = () => {
 }
 
 const displayResult = fetchedData => {
-    console.log(fetchedData);
     const phones = fetchedData.slice(0, 20);
     for (const phone of phones) {
         console.log(phone);
@@ -49,6 +48,25 @@ const phoneDetails = clickedPhone => {
     detailsContainer.innerHTML = ``;
     const div = document.createElement('div');
     div.classList.add('d-flex');
+
+
+    // console.log(sensors)
+    // const sensorContainer = document.getElementById('sensor-container');
+    function habiJabi() {
+        const sensors = clickedPhone.mainFeatures.sensors;
+
+        const list = document.createElement('ul');
+        // const list = [];
+        for (const sensor of sensors) {
+            const item = document.createElement('li');
+            item.innerText = `${sensor}`;
+            const habi = list.appendChild(item);
+            // list.push(sensor);
+        }
+        return list.innerHTML;
+    }
+
+
     div.innerHTML = `
             <div class="w-50"> <img class="w-75" src="${clickedPhone.image}" alt="">
             </div>
@@ -63,22 +81,14 @@ const phoneDetails = clickedPhone => {
                         <span class="fw-bold">Memory:</span> ${clickedPhone.mainFeatures.memory}<br>
                         <span class="fw-bold">Storage:</span> ${clickedPhone.mainFeatures.storage}
                     </p>
-                    <div id="sensor-container"><span class="fw-bold">Sensors:</span>
-                        
+                    <div><span class="fw-bold">Sensors:</span>
+                        ${habiJabi()}
                     </div>
                 </div>
              </div>
     `;
-    const sensors = clickedPhone.mainFeatures.sensors;
-    // console.log(sensors)
-    const sensorContainer = document.getElementById('sensor-container');
-    const list = document.createElement('ul');
-    for (const sensor of sensors) {
-        const item = document.createElement('li');
-        list.innerText = `${sensor}`;
-        list.appendChild(item);
-    }
+    
     detailsContainer.appendChild(div);
-    sensorContainer.appendChild(list);
+    // sensorContainer.appendChild(list);
 
     }
