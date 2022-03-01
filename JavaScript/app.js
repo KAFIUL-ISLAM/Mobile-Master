@@ -1,30 +1,39 @@
 const container = document.getElementById('display-result');
 const detailsContainer = document.getElementById('details-display');
-const errorMessage = document.getElementById('error-message');
+
+//Function for showing Spinner
+const showSpinner = displayStyle => {
+    const spinner = document.getElementById('spinner');
+    spinner.style.display = displayStyle;
+}
+
+//function for showing no data error
+const noData = displayStyle => {
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.style.display = displayStyle;
+    showSpinner('none');
+}
 
 
+//Function to fetch data from API
 const fetchData = () => {
+    showSpinner('block');
     const inputField = document.getElementById('input-field');
-    const searchText = inputField.value;
+    const searchText = inputField.value.toLowerCase();
     inputField.value = '';
     container.innerHTML = ``;
     detailsContainer.innerHTML = ``;
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
     fetch(url)
         .then(res => res.json())
-        .then(data => data.status ? displayResult(data.data) : noData());
-
+        .then(data => data.status ? displayResult(data.data) : noData('block'));
 }
 
-const noData = () => {
-    errorMessage.style.display = 'block';
-}
-
+//Function to display search results in Website
 const displayResult = fetchedData => {
-    errorMessage.style.display = 'none';
+    noData('none');
     const phones = fetchedData.slice(0, 20);
     for (const phone of phones) {
-        console.log(phone);
         const card = document.createElement('div');
         card.classList.add('col');
         card.innerHTML = `
@@ -38,11 +47,13 @@ const displayResult = fetchedData => {
         `;
         container.appendChild(card);
     }
+    showSpinner('none');
     // const button = document.createElement('button');
     // button.innerText = "submit";
     // container.appendChild(button);
 }
 
+//Function to fetch details about the phone that user clicked
 const showDetails = phoneID => {
     const url = `
         https://openapi.programming-hero.com/api/phone/${phoneID}
@@ -51,8 +62,9 @@ const showDetails = phoneID => {
         .then(res => res.json())
         .then(data => phoneDetails(data.data))
 }
+
+//Function to show details in Website about the phone that user clicked
 const phoneDetails = clickedPhone => {
-    console.log(clickedPhone);
     detailsContainer.innerHTML = ``;
     const div = document.createElement('div');
     div.classList.add('d-flex');
@@ -68,8 +80,6 @@ const phoneDetails = clickedPhone => {
         return list.innerHTML;
     }
    
-
-
     div.innerHTML = `
             <div class="w-50"> <img class="w-75" src="${clickedPhone.image}" alt="">
             </div>
@@ -102,7 +112,5 @@ const phoneDetails = clickedPhone => {
                 </div>
              </div>
     `;
-    detailsContainer.appendChild(div);
-
-    
+    detailsContainer.appendChild(div);    
 }
