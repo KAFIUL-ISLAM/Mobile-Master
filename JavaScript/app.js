@@ -1,5 +1,7 @@
 const container = document.getElementById('display-result');
 const detailsContainer = document.getElementById('details-display');
+const errorMessage = document.getElementById('error-message');
+
 
 const fetchData = () => {
     const inputField = document.getElementById('input-field');
@@ -10,10 +12,16 @@ const fetchData = () => {
     const url = `https://openapi.programming-hero.com/api/phones?search=${searchText}`
     fetch(url)
         .then(res => res.json())
-        .then(data => displayResult(data.data))
+        .then(data => data.status ? displayResult(data.data) : noData());
+
+}
+
+const noData = () => {
+    errorMessage.style.display = 'block';
 }
 
 const displayResult = fetchedData => {
+    errorMessage.style.display = 'none';
     const phones = fetchedData.slice(0, 20);
     for (const phone of phones) {
         console.log(phone);
@@ -68,7 +76,7 @@ const phoneDetails = clickedPhone => {
             <div class="w-50 d-flex align-items-center">
                 <div>
                     <h2 class="fw-bold">${clickedPhone.name}</h2>
-                    <small class="text-muted">${clickedPhone.releaseDate}</small>
+                    <small class="text-muted">${clickedPhone.releaseDate ? clickedPhone.releaseDate: "No Release Date found"}</small>
                     <h4 class="fw-bold text-info"><span class="text-dark">Brand:</span> ${clickedPhone.brand}</h4>
                     <div>
                     <p>
@@ -80,12 +88,12 @@ const phoneDetails = clickedPhone => {
                     </p>
                     <p>
                     <span class="fw-bold fs-5">Others</span><br>
-                        <span class="fw-bold">Bluetooth:</span> ${clickedPhone.others?.Bluetooth}<br>
-                        <span class="fw-bold">GPS:</span> ${clickedPhone.others?.GPS}<br>
-                        <span class="fw-bold">NFC:</span> ${clickedPhone.others?.NFC}<br>
-                        <span class="fw-bold">WLAN:</span> ${clickedPhone.others?.WLAN}<br>
-                        <span class="fw-bold">USB:</span> ${clickedPhone.others?.USB}<br>
-                        <span class="fw-bold">Radio:</span> ${clickedPhone.others?.Radio}
+                        <span class="fw-bold">Bluetooth:</span> ${clickedPhone.others?.Bluetooth ? clickedPhone.others.Bluetooth : "No info found"}<br>
+                        <span class="fw-bold">GPS:</span> ${clickedPhone.others?.GPS ? clickedPhone.others.GPS : "No info found"}<br>
+                        <span class="fw-bold">NFC:</span> ${clickedPhone.others?.NFC ? clickedPhone.others.NFC : "No info found"}<br>
+                        <span class="fw-bold">WLAN:</span> ${clickedPhone.others?.WLAN ? clickedPhone.others.WLAN : "No info found"}<br>
+                        <span class="fw-bold">USB:</span> ${clickedPhone.others?.USB ? clickedPhone.others.USB : "No info found"}<br>
+                        <span class="fw-bold">Radio:</span> ${clickedPhone.others?.Radio ? clickedPhone.others.Radio : "No info found"}
                     </p>
                     </div>
                     <div><span class="fw-bold">Sensors:</span>
