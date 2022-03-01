@@ -49,22 +49,17 @@ const phoneDetails = clickedPhone => {
     const div = document.createElement('div');
     div.classList.add('d-flex');
 
-
-    // console.log(sensors)
-    // const sensorContainer = document.getElementById('sensor-container');
-    function habiJabi() {
+    const sensorList = () => {
         const sensors = clickedPhone.mainFeatures.sensors;
-
         const list = document.createElement('ul');
-        // const list = [];
         for (const sensor of sensors) {
             const item = document.createElement('li');
             item.innerText = `${sensor}`;
-            const habi = list.appendChild(item);
-            // list.push(sensor);
+            list.appendChild(item);
         }
         return list.innerHTML;
     }
+   
 
 
     div.innerHTML = `
@@ -74,21 +69,32 @@ const phoneDetails = clickedPhone => {
                 <div>
                     <h2 class="fw-bold">${clickedPhone.name}</h2>
                     <small class="text-muted">${clickedPhone.releaseDate}</small>
-                    <h4><span class="fw-bold">Brand:</span> ${clickedPhone.brand}</h4>
-                    <p><span class="fw-bold fs-5">Main Features</span><br>
+                    <h4 class="fw-bold text-info"><span class="text-dark">Brand:</span> ${clickedPhone.brand}</h4>
+                    <div>
+                    <p>
+                    <span class="fw-bold fs-5">Main Features</span><br>
                         <span class="fw-bold">Chipset:</span> ${clickedPhone.mainFeatures.chipSet}<br>
                         <span class="fw-bold">Display Size:</span> ${clickedPhone.mainFeatures.displaySize}<br>
                         <span class="fw-bold">Memory:</span> ${clickedPhone.mainFeatures.memory}<br>
                         <span class="fw-bold">Storage:</span> ${clickedPhone.mainFeatures.storage}
                     </p>
+                    <p>
+                    <span class="fw-bold fs-5">Others</span><br>
+                        <span class="fw-bold">Bluetooth:</span> ${clickedPhone.others?.Bluetooth}<br>
+                        <span class="fw-bold">GPS:</span> ${clickedPhone.others?.GPS}<br>
+                        <span class="fw-bold">NFC:</span> ${clickedPhone.others?.NFC}<br>
+                        <span class="fw-bold">WLAN:</span> ${clickedPhone.others?.WLAN}<br>
+                        <span class="fw-bold">USB:</span> ${clickedPhone.others?.USB}<br>
+                        <span class="fw-bold">Radio:</span> ${clickedPhone.others?.Radio}
+                    </p>
+                    </div>
                     <div><span class="fw-bold">Sensors:</span>
-                        ${habiJabi()}
+                        ${sensorList()}
                     </div>
                 </div>
              </div>
     `;
-    
     detailsContainer.appendChild(div);
-    // sensorContainer.appendChild(list);
 
-    }
+    
+}
