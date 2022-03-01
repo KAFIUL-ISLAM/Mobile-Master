@@ -5,14 +5,14 @@ const detailsContainer = document.getElementById('details-display');
 const showSpinner = displayStyle => {
     const spinner = document.getElementById('spinner');
     spinner.style.display = displayStyle;
-}
+};
 
 //function for showing no data error
 const noData = displayStyle => {
     const errorMessage = document.getElementById('error-message');
     errorMessage.style.display = displayStyle;
     showSpinner('none');
-}
+};
 
 
 //Function to fetch data from API
@@ -27,13 +27,13 @@ const fetchData = () => {
     fetch(url)
         .then(res => res.json())
         .then(data => data.status ? displayResult(data.data) : noData('block'));
-}
+};
 
 //Function to display search results in Website
-const displayResult = fetchedData => {
+const displayResult = phonesData => {
     noData('none');
-    const phones = fetchedData.slice(0, 20);
-    for (const phone of phones) {
+    const phones = phonesData.slice(0, 20);
+    phones.forEach(phone => {
         const card = document.createElement('div');
         card.classList.add('col');
         card.innerHTML = `
@@ -46,12 +46,9 @@ const displayResult = fetchedData => {
             </div>
         `;
         container.appendChild(card);
-    }
+    });
     showSpinner('none');
-    // const button = document.createElement('button');
-    // button.innerText = "submit";
-    // container.appendChild(button);
-}
+};
 
 //Function to fetch details about the phone that user clicked
 const showDetails = phoneID => {
@@ -61,32 +58,33 @@ const showDetails = phoneID => {
     fetch(url)
         .then(res => res.json())
         .then(data => phoneDetails(data.data))
-}
+};
 
 //Function to show details in Website about the phone that user clicked
 const phoneDetails = clickedPhone => {
     detailsContainer.innerHTML = ``;
     const div = document.createElement('div');
-    div.classList.add('d-flex');
+    div.classList.add('d-flex', 'flex-column', 'flex-md-row', 'align-items-center', 'justify-content-center');
 
+    //Function to creat a sensor list
     const sensorList = () => {
         const sensors = clickedPhone.mainFeatures.sensors;
         const list = document.createElement('ul');
-        for (const sensor of sensors) {
+        sensors.forEach(sensor => {
             const item = document.createElement('li');
             item.innerText = `${sensor}`;
             list.appendChild(item);
-        }
+        });
         return list.innerHTML;
-    }
-   
+    };
+
     div.innerHTML = `
-            <div class="w-50"> <img class="w-75" src="${clickedPhone.image}" alt="">
+            <div class="w-50 d-flex align-items-center justify-content-center"> <img class="w-75" src="${clickedPhone.image}" alt="">
             </div>
-            <div class="w-50 d-flex align-items-center">
+            <div class="w-50 d-flex align-items-center justify-content-center">
                 <div>
                     <h2 class="fw-bold">${clickedPhone.name}</h2>
-                    <small class="text-muted">${clickedPhone.releaseDate ? clickedPhone.releaseDate: "No Release Date found"}</small>
+                    <small class="text-muted">${clickedPhone.releaseDate ? clickedPhone.releaseDate : "No Release Date found"}</small>
                     <h4 class="fw-bold text-info"><span class="text-dark">Brand:</span> ${clickedPhone.brand}</h4>
                     <div>
                     <p>
@@ -112,5 +110,5 @@ const phoneDetails = clickedPhone => {
                 </div>
              </div>
     `;
-    detailsContainer.appendChild(div);    
-}
+    detailsContainer.appendChild(div);
+};
