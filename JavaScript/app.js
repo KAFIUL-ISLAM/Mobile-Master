@@ -64,7 +64,7 @@ const showDetails = phoneID => {
 const phoneDetails = clickedPhone => {
     detailsContainer.innerHTML = ``;
     const div = document.createElement('div');
-    div.classList.add('d-flex', 'flex-column', 'flex-md-row', 'align-items-center', 'justify-content-center');
+    div.classList.add('row', 'row-cols-1', 'row-cols-md-2', 'g-5');
 
     //Function to creat a sensor list
     const sensorList = () => {
@@ -79,9 +79,9 @@ const phoneDetails = clickedPhone => {
     };
 
     div.innerHTML = `
-            <div class="w-50 d-flex align-items-center justify-content-center"> <img class="w-75" src="${clickedPhone.image}" alt="">
+            <div class="col d-flex align-items-center justify-content-center"> <img class="w-75" src="${clickedPhone.image}" alt="">
             </div>
-            <div class="w-50 d-flex align-items-center justify-content-center">
+            <div class="col d-flex align-items-center justify-content-center">
                 <div>
                     <h2 class="fw-bold">${clickedPhone.name}</h2>
                     <small class="text-muted">${clickedPhone.releaseDate ? clickedPhone.releaseDate : "No Release Date found"}</small>
@@ -108,7 +108,7 @@ const phoneDetails = clickedPhone => {
                         ${sensorList()}
                     </div>
                 </div>
-             </div>
+            </div>
     `;
     detailsContainer.appendChild(div);
 };
